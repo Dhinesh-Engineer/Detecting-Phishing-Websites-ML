@@ -1,0 +1,19 @@
+from sklearn.ensemble import RandomForestClassifier
+forest = RandomForestClassifier(max_depth=5)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+forest.fit(X_train, y_train)
+y_test_forest = forest.predict(X_test)
+y_train_forest = forest.predict(X_train)
+acc_train_forest = accuracy_score(y_train,y_train_forest)
+acc_test_forest = accuracy_score(y_test,y_test_forest)
+
+print("Random forest: Accuracy on training Data: {:.3f}".format(acc_train_forest))
+print("Random forest: Accuracy on test Data: {:.3f}".format(acc_test_forest))
+plt.figure(figsize=(9,7))
+n_features = X_train.shape[1]
+plt.barh(range(n_features), forest.feature_importances_, align='center')
+plt.yticks(np.arange(n_features), X_train.columns)
+plt.xlabel("Feature importance")
+plt.ylabel("Feature")
+plt.show()
+storeResults('Random Forest', acc_train_forest, acc_test_forest)
